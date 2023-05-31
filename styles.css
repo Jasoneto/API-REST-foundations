@@ -1,4 +1,4 @@
-* {
+/* * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -31,9 +31,10 @@ h1 {
 .container .image {
     border-radius: 20px;
     margin: 20px;
-    width: auto;
+    width: 400px;
     height: 500px;
 }
+
 .random-cat-button {
     align-items: center;
     background-color: rgb(228, 164, 94);
@@ -49,4 +50,4 @@ h1 {
 .random-cat-button:hover {
     border: 5px solid rgb(228, 164, 94);
     background-color: rgb(227, 141, 67);
-}
+} */

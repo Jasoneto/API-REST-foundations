@@ -5,23 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles.css">
-    <title>Radom kittens</title>
+    <title>Cats app</title>
 </head>
 <body>
     <header>
-        <h1>Random kittens</h1>
+        <h1>Cats App</h1>
     </header>
 
-    <section class="container">
-        <section class="image">
-            <img id="cat1" alt="Random kitten picture">
-            <img id="cat2" alt="Random kitten picture">
-            <img id="cat3" alt="Random kitten picture">
-        </section>
+    <section id="RandomCats">
+        <h2>Random cats</h2>
 
-            <button onclick="myCat" type="button" class="random-cat-button">
-            show me a cat!
-            </button>
+        <article>
+            <img id="cat1" width="150" alt="Random kitten picture">
+            <button>Save cat in favorites</button>
+        </article>
+
+        <article>
+            <img id="cat2" width="150" alt="Random kitten picture">
+            <button>Save cat in favorites</button>
+        </article>
+
+        <article>
+            <img id="cat3" width="150" alt="Random kitten picture">
+            <button>Save cat in favorites</button>
+        </article>
+
+    </section>
+
+    <button onclick="reload()">
+        Reload a cat!
+    </button>
+
+    <section id="favoritesCats">
+        <h2>Favorite cats</h2>
+
+        <article>
+            <img id="cat1" width="150" alt="Random kitten picture">
+            <button>Remove cat from favorites</button>
+        </article>
     </section>
 
     <script src="./main.js"></script>
