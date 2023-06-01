@@ -2,6 +2,9 @@ const API_URL_RANDOM = 'https://api.thecatapi.com/v1/images/search?limit=2&api_k
 
 const API_URL_FAVOURITES = 'https://api.thecatapi.com/v1/favourites?api_key=live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf';
 
+const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf`;
+
+
 const spanError = document.getElementById('error')
 
 // fetch(URL) //fetch returns a promise, and a promise is resolve with a '.then'
@@ -42,8 +45,14 @@ async function loadFavouriteCats() {
     if (res.status !== 200) {
         spanError.innerHTML = "There was a mistake" + res.status + data.message;
     } else {
+        const section = document.getElementById('favouriteCats');
+        section.innerHTML = "";
+        const h2 = document.createElement('h2');
+        const h2Text = document.createTextNode('Favourite cats');
+        h2.appendChild(h2Text);
+        section.appendChild(h2);
+
         data.forEach(cat => {
-            const section = document.getElementById('favouriteCats');
             const article = document.createElement('article');
             const img = document.createElement('img');
             const btn = document.createElement('button');
@@ -52,6 +61,7 @@ async function loadFavouriteCats() {
             img.src = cat.image.url;
             img.width = 150;
             btn.appendChild(btnText);
+            btn.onclick = () => deleteFavouriteCat(cat.id);
             article.appendChild(img);
             article.appendChild(btn);
             section.appendChild(article);
@@ -76,7 +86,25 @@ async function saveFavouriteCat(id) {
     console.log(res)
 
     if (res.status !== 200) {
+        spanError.innerHTML = "There was a mistake:" + res.status + data.message;
+    } else {
+        console.log('Cat saved in favourites')
+        loadFavouriteCats();
+    }
+}
+
+async function deleteFavouriteCat(id) {
+    const res = await fetch(API_URL_FAVOURITES_DELETE(id), {
+        method: 'DELETE',
+    });
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
         spanError.innerHTML = "There was a mistake" + res.status + data.message;
+    } else {
+        console.log('Cat deleted from favourites')
+        loadFavouriteCats();
     }
 }
 
