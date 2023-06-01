@@ -1,8 +1,8 @@
-const API_URL_RANDOM = 'https://api.thecatapi.com/v1/images/search?limit=2&api_key=live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf';
+const API_URL_RANDOM = 'https://api.thecatapi.com/v1/images/search?limit=2';
 
-const API_URL_FAVOURITES = 'https://api.thecatapi.com/v1/favourites?api_key=live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf';
+const API_URL_FAVOURITES = 'https://api.thecatapi.com/v1/favourites';
 
-const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf`;
+const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
 
 
 const spanError = document.getElementById('error')
@@ -37,7 +37,12 @@ async function loadRandomCats() {
 }
 
 async function loadFavouriteCats() {
-    const res = await fetch(API_URL_FAVOURITES);
+    const res = await fetch(API_URL_FAVOURITES, {
+        method: 'GET',
+        headers: {
+            'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
+        },
+    });
     const data = await res.json();
     console.log('Favourites')
     console.log(data)
@@ -74,6 +79,7 @@ async function saveFavouriteCat(id) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
         },
         body: JSON.stringify({
             image_id: id
@@ -96,6 +102,9 @@ async function saveFavouriteCat(id) {
 async function deleteFavouriteCat(id) {
     const res = await fetch(API_URL_FAVOURITES_DELETE(id), {
         method: 'DELETE',
+        headers: {
+            'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
+        },
     });
 
     const data = await res.json();
