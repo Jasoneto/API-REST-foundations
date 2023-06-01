@@ -22,9 +22,14 @@ async function loadRandomCats() {
     } else {
     const cat1 = document.getElementById('cat1');
     const cat2 = document.getElementById('cat2');
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
 
     cat1.src = data[0].url;
     cat2.src = data[1].url;
+
+    btn1.onclick = () => saveFavouriteCat(data[0].id);
+    btn2.onclick = () => saveFavouriteCat(data[1].id);
     }
 }
 
@@ -36,17 +41,32 @@ async function loadFavouriteCats() {
 
     if (res.status !== 200) {
         spanError.innerHTML = "There was a mistake" + res.status + data.message;
+    } else {
+        data.forEach(cat => {
+            const section = document.getElementById('favouriteCats');
+            const article = document.createElement('article');
+            const img = document.createElement('img');
+            const btn = document.createElement('button');
+            const btnText = document.createTextNode('Remove cat from favorites');
+
+            img.src = cat.image.url;
+            img.width = 150;
+            btn.appendChild(btnText);
+            article.appendChild(img);
+            article.appendChild(btn);
+            section.appendChild(article);
+        });
     }
 }
 
-async function saveFavouriteCats() {
+async function saveFavouriteCat(id) {
     const res = await fetch(API_URL_FAVOURITES, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            image_id: 'b2e'
+            image_id: id
         }),
     });
 
@@ -61,5 +81,4 @@ async function saveFavouriteCats() {
 }
 
 loadRandomCats();
-
 loadFavouriteCats();
