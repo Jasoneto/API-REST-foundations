@@ -4,6 +4,8 @@ const API_URL_FAVOURITES = 'https://api.thecatapi.com/v1/favourites';
 
 const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
 
+const API_URL_UPLOAD = 'https://api.thecatapi.com/v1/images/upload';
+
 
 const spanError = document.getElementById('error')
 
@@ -114,6 +116,34 @@ async function deleteFavouriteCat(id) {
     } else {
         console.log('Cat deleted from favourites')
         loadFavouriteCats();
+    }
+}
+
+async function uploadCatPhoto() {
+    const form = document.getElementById('uploadingForm')
+    const formData = new FormData(form);
+
+    console.log(formData.get('file'))
+
+    const res = await fetch(API_URL_UPLOAD, {
+        method: 'POST',
+        headers: {
+            // 'Content-Type': 'multipart/form-data',
+            'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
+        },
+        body: formData,
+    })
+
+    const data = await res.json();
+
+    if (res.status !== 201) {
+        spanError.innerHTML = "There is an error: " + res.status + data.message;
+        console.log({data})
+    } else {
+        console.log('Cat photo uploaded')
+        console.log({data})
+        console.log(data.url)
+        saveFavouriteCat(data.id);
     }
 }
 
