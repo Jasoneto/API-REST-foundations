@@ -1,3 +1,8 @@
+const api = axios.create({
+    baseURl: 'https://api.thecatapi.com/v1'
+});
+api.defaults.headers.common['X-API-KEY'] = 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf';
+
 const API_URL_RANDOM = 'https://api.thecatapi.com/v1/images/search?limit=2';
 
 const API_URL_FAVOURITES = 'https://api.thecatapi.com/v1/favourites';
@@ -77,24 +82,27 @@ async function loadFavouriteCats() {
 }
 
 async function saveFavouriteCat(id) {
-    const res = await fetch(API_URL_FAVOURITES, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
-        },
-        body: JSON.stringify({
-            image_id: id
-        }),
+    const { data, status } = await api.post('/favourites', {
+        image_id: id,
     });
 
-    const data = await res.json();
+    // const res = await fetch(API_URL_FAVOURITES, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'X-API-KEY': 'live_NLWIzci8PXeLSiUesKGTnQqjAT2ZfNWsrPTeGD6ekndKKsEy6FtsU81dkfja2RJf',
+    //     },
+    //     body: JSON.stringify({
+    //         image_id: id
+    //     }),
+    // });
+
+    // const data = await res.json(); //this is how we parse the data
 
     console.log('save')
-    console.log(res)
 
-    if (res.status !== 200) {
-        spanError.innerHTML = "There was a mistake:" + res.status + data.message;
+    if (status !== 200) {
+        spanError.innerHTML = "There was a mistake: " + status + data.message;
     } else {
         console.log('Cat saved in favourites')
         loadFavouriteCats();
